@@ -33,20 +33,13 @@ export const TodoList = () => {
       setTodos(newTodos)
     }
 
-  const [todos, setTodos] = useState([
-    { id: 1, task: "Ir a la farmacia 🍰", estado: true },
-    { id: 2, task: "Ir a la tienda 🍔" , estado: false},
-    { id: 3, task: "Ir a la escuela 🍕",estado: true },
-    { id: 4, task: "Ir a la casa 🍟",estado: false },
-    { id: 5, task: "Ir a la iglesia 🍿",estado: true },
-    { id: 6, task: "Ir a la playa 🍩",estado: false },
-  ]);
+  const [todos, setTodos] = useState([]);
 
   /* Contar las tareas - Donde estado == false */
   const contadorTareas = () => {
     return todos.filter((todo)=>!todo.estado).length
   }
-
+/* Componente con el resumen de las tareas con mensajes personalizados */
   const ResumenTareas = () => {
     const cantidad = contadorTareas()
     if(cantidad === 0){
@@ -79,6 +72,12 @@ export const TodoList = () => {
     )
 
   }
+  /*Eliminar las tareas - Donde estado == false  */
+  const eliminarTareasCompletas = () => {
+    /* Filtrar (nueva lista) todas aquellas tareas que no esten completas */
+    const newTodos = todos.filter((todo)=>!todo.estado)
+    setTodos(newTodos)
+  }
 
   const taskRef = useRef()
 
@@ -89,7 +88,7 @@ export const TodoList = () => {
       <div className="input-group my-5">
         <input type="text" className="form-control" placeholder="Ingrese una tarea" ref={taskRef}/>
         <button className="btn btn-primary ms-2" onClick={addTask}><i className="bi bi-clipboard-plus"></i></button>
-        <button className="btn btn-danger ms-2"><i className="bi bi-trash"></i></button>
+        <button className="btn btn-danger ms-2" onClick={eliminarTareasCompletas}><i className="bi bi-trash"></i></button>
       </div>
 
       <ul className="list-group mt-5">
