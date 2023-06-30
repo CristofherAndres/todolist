@@ -14,7 +14,8 @@ export const TodoList = () => {
         setTodos((prevTodos) =>{
           const newTask = {
             id:uuid4(),
-            task: tarea
+            task: tarea,
+            estado: false
           }
           return[...prevTodos, newTask] //Investigar
         })
@@ -41,6 +42,44 @@ export const TodoList = () => {
     { id: 6, task: "Ir a la playa 🍩",estado: false },
   ]);
 
+  /* Contar las tareas - Donde estado == false */
+  const contadorTareas = () => {
+    return todos.filter((todo)=>!todo.estado).length
+  }
+
+  const ResumenTareas = () => {
+    const cantidad = contadorTareas()
+    if(cantidad === 0){
+      return(
+        <div className="alert alert-success mt-3 text-center">
+          Felicidades, no cuentas con tareas pendientes 😊
+        </div>
+      )
+    }
+    if (cantidad === 1){
+      return(
+        <div className="alert alert-info mt-3 text-center">
+          Te queda solamente 1 tarea pendiente.
+        </div>
+      )
+    }
+
+    if (cantidad > 9){
+      return(
+        <div className="alert alert-danger mt-3 text-center">
+        Te quedan {cantidad} tareas pendientes 😮.
+      </div>
+      )
+    }
+
+    return(
+      <div className="alert alert-warning mt-3 text-center">
+        Te quedan {cantidad} tareas pendientes.
+      </div>
+    )
+
+  }
+
   const taskRef = useRef()
 
   return (
@@ -58,6 +97,9 @@ export const TodoList = () => {
           <TodoItem todo={todo} key={todo.id} cambiarEstado={cambiarEstadoTarea} />
         ))}
       </ul>
+
+      <ResumenTareas/>
+
     </Fragment>
   );
 };
